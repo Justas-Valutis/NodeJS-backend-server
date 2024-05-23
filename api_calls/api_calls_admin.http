@@ -1,0 +1,56 @@
+@base_URL = http://localhost:3000/api/admins
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjJkY2RhNDVmMmZkODI0YWQxMDdiYTYiLCJ1c2VybmFtZSI6InlsZXoiLCJlbWFpbCI6InlsZXoub3ppZXZsQGdtYWlsLmNvbSIsImlhdCI6MTcxNjQ2MzM3OCwiZXhwIjoxNzE2NDY2OTc4fQ.2669Da1flHXICEwvgVzL9Nj6OpOYCIIqxAMAZcXDI-4
+
+### 11. Get admins
+GET {{base_URL}}
+
+### 12. Post admin
+POST {{base_URL}}
+Content-Type: application/json
+
+{
+  "username": "test",
+  "email":  "test@gmail.com",
+  "password": "test"
+}
+
+### 13. Put admin
+PUT {{base_URL}}/664f278d2e88b4885109a36b
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+  "username": "PutTest2",
+  "email": "pustJustas@example.com",
+  "password": "test"
+}
+
+### 14. Patch admin email
+PATCH  {{base_URL}}/change-email/664f278d2e88b4885109a36b
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+  "email": "patchemail2@example.com"
+}
+
+### 15. Patch admin password
+PATCH  {{base_URL}}/change-psw/664f278d2e88b4885109a36b
+Content-Type: application/json
+x-auth-token: {{authToken}}
+
+{
+  "password": "newPSW"
+}
+
+### 16. Forgot email admin
+GET {{base_URL}}/forgot-email/ylez
+Content-Type: application/json
+
+{
+  "username": "ylez"
+}
+
+### 17. Delete admin
+DELETE {{base_URL}}/delete/664f278d2e88b4885109a36b
+x-auth-token: {{authToken}}
