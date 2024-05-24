@@ -1,32 +1,35 @@
 @base_URL = http://localhost:3000/api/members
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjJkY2RhNDVmMmZkODI0YWQxMDdiYTYiLCJ1c2VybmFtZSI6InlsZXoiLCJlbWFpbCI6InlsZXoub3ppZXZsQGdtYWlsLmNvbSIsImlhdCI6MTcxNjQ2MzM3OCwiZXhwIjoxNzE2NDY2OTc4fQ.2669Da1flHXICEwvgVzL9Nj6OpOYCIIqxAMAZcXDI-4
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjUwYjU2M2E4N2UyYTZhN2Y1YzhjNTYiLCJ1c2VybmFtZSI6InlsZXoiLCJlbWFpbCI6InlsZXoub3ppZXZsQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxNjU2NTczMCwiZXhwIjoxNzE2NTY5MzMwfQ.RRpgTbXOeoq1c4-keqoNuOV6htNPy-eL1IKe9H2RXPs
 
 ### 1. Get ALL Members
 GET {{base_URL}}
 
 ### 2. get members by ID
-GET {{base_URL}}/662dfea1e2b389cb4d0c8d20
+GET {{base_URL}}/6650b4dc5a643a81e86f61b6
 
 ### 3. get members by name
 GET {{base_URL}}/name/tom
 
-### 4. POST member
+### 4. POST member (membership Type (all-in, mma of grappling-bjj)
 POST {{base_URL}}
 content-type: application/json
 x-auth-token: {{authToken}}
 
 {
-  "name": "Kobe9999sss",
+  "name": "Kobe",
   "lastName" :  "Bryant",
   "birthDate" : "1978-08-23",
   "gsm" : "+17181234569",
   "email" : "kobe.bryant@gmail.com",
-  "membershipType" :  "all-in",
-  "paid" : true
+  "membership" : {
+    "membershipType" :  "all-in",
+    "paid" : false,
+    "monthsPaid": 1
+  }
 }
 
 ### 5. PUT (Edit) member
-PUT {{base_URL}}/664f27ac2e88b4885109a370
+PUT {{base_URL}}/6650bd106372fac169149eec
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
@@ -35,30 +38,29 @@ x-auth-token: {{authToken}}
   "lastName" :  "NewBryant",
   "birthDate" : "1978-08-23",
   "gsm" : "+17181234569",
-  "email" : "kobe.bryant@gmail.com",
-  "membershipType" :  "all-in",
-  "paid" : true
+  "email" : "kobe.bryant@gmail.com"
 }
 
 ### 6. Delete member
-DELETE {{base_URL}}/664f27ac2e88b4885109a370
+DELETE {{base_URL}}/6650bd106372fac169149eec
 x-auth-token: {{authToken}}
 
 ### 7. Get all members who paid or didn't paid for membership
-GET {{base_URL}}/paid=true
+@paid = false
+GET {{base_URL}}/paid={{paid}}
 
 ### 8. Set membership as paid
-PATCH {{base_URL}}/setpaid/664f27ac2e88b4885109a370
+PATCH {{base_URL}}/setpaid/6650bd106372fac169149eec
 x-auth-token: {{authToken}}
 
-### 9. Get members by membership Type
-GET {{base_URL}}/type/all-in
+### 9. Get members by membership Type (all-in, mma of grappling-bjj)
+@membershiptype = mma
+GET {{base_URL}}/type/{{membershiptype}}
 
 ### 10. Set membership type
-PATCH {{base_URL}}/setmembershiptype/664f27ac2e88b4885109a370
+PATCH {{base_URL}}/setmembershiptype/6650bd106372fac169149eec
 Content-Type: application/json
 x-auth-token: {{authToken}}
-
 
 {
   "membershipType" : "mma"

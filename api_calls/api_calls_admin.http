@@ -1,5 +1,5 @@
 @base_URL = http://localhost:3000/api/admins
-@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjJkY2RhNDVmMmZkODI0YWQxMDdiYTYiLCJ1c2VybmFtZSI6InlsZXoiLCJlbWFpbCI6InlsZXoub3ppZXZsQGdtYWlsLmNvbSIsImlhdCI6MTcxNjQ2MzM3OCwiZXhwIjoxNzE2NDY2OTc4fQ.2669Da1flHXICEwvgVzL9Nj6OpOYCIIqxAMAZcXDI-4
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjUwYjU2M2E4N2UyYTZhN2Y1YzhjNTYiLCJ1c2VybmFtZSI6InlsZXoiLCJlbWFpbCI6InlsZXoub3ppZXZsQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcxNjU2NTczMCwiZXhwIjoxNzE2NTY5MzMwfQ.RRpgTbXOeoq1c4-keqoNuOV6htNPy-eL1IKe9H2RXPs
 
 ### 11. Get admins
 GET {{base_URL}}
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ### 13. Put admin
-PUT {{base_URL}}/664f278d2e88b4885109a36b
+PUT {{base_URL}}/6650bce66372fac169149ee2
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
@@ -26,7 +26,7 @@ x-auth-token: {{authToken}}
 }
 
 ### 14. Patch admin email
-PATCH  {{base_URL}}/change-email/664f278d2e88b4885109a36b
+PATCH  {{base_URL}}/change-email/6650bce66372fac169149ee2
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
@@ -35,12 +35,12 @@ x-auth-token: {{authToken}}
 }
 
 ### 15. Patch admin password
-PATCH  {{base_URL}}/change-psw/664f278d2e88b4885109a36b
+PATCH  {{base_URL}}/change-psw/6650bce66372fac169149ee2
 Content-Type: application/json
 x-auth-token: {{authToken}}
 
 {
-  "password": "newPSW"
+  "password": "tess"
 }
 
 ### 16. Forgot email admin
@@ -52,5 +52,5 @@ Content-Type: application/json
 }
 
 ### 17. Delete admin
-DELETE {{base_URL}}/delete/664f278d2e88b4885109a36b
+DELETE {{base_URL}}/delete/6650b751f433fb7739736897
 x-auth-token: {{authToken}}

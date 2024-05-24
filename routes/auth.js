@@ -18,6 +18,7 @@ router.post('/', async (req, res) => {
 
     const validPassword = await bcrypt.compare(req.body.password, await passwordHashing(admin.password))
     if(validPassword) return res.status(400).send('Invalid user or password');
+    if(!admin.isAdmin) return res.status(403).send('Access forbidden, no admin rights');
 
     const token = admin.generateAuthToken()
 

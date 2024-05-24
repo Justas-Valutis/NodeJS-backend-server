@@ -9,10 +9,10 @@ const app = express();
 const mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb+srv://justas-vives:justas@nodejs-exam.dcc2ju8.mongodb.net/')
+mongoose.connect('mongodb+srv://justas-vives:justas@nodejs-exam.dcc2ju8.mongodb.net/AranhaBelgium')
     .then(() => console.log('DB connection established'))
     .catch(err => console.error('Error connection NOT established ' + err));
-
+    
 app.use(express.json());
 app.use('/', home)
 app.use('/api/members', members)

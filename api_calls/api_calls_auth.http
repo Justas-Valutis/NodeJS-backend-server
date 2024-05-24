@@ -9,3 +9,13 @@ Content-Type: application/json
   //dit is password van de gebruiker
   "password": "ylez"
 }
+
+### 18. Auth no admin rights
+POST {{base_URL}}
+Content-Type: application/json
+
+{
+  "email": "test@gmail.com",
+  //dit is password van de gebruiker
+  "password": "test"
+}

@@ -1,6 +1,7 @@
-const {Member, validateMember, validateMembershipType} = require('../models/member');
+const { Member, validateMember } = require('../models/member');
 const express = require('express');
 const auth = require('../middleware/auth');
+const { validateMembershipType } = require('../models/membership');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -18,7 +19,7 @@ router.get('/paid=:paid', async (req, res) => {
     } else {
         return res.status(404).send('Given value should be true or false');
     }
-    const members = await Member.find({ paid: givenVariable });
+    const members = await Member.find({ 'membership.paid': givenVariable });
     if (!members) return res.status(404).send('Members not found');
 
     res.send(members);
@@ -46,15 +47,28 @@ router.get('/:id', async (req, res) => {
 router.post('/', [auth], async (req, res) => {
     const result = validateMember(req.body);
     if (result.error) return res.status(400).send(result.error.details[0].message);
+    let datePaid = null;
+    let dateExpires = null;
+
     const birthDate = new Date(req.body.birthDate)
+    if (req.body.membership.paid === true && req.body.membership.monthsPaid > 0) {
+        datePaid = Date.now();
+        dateExpires = new Date(datePaid);
+        dateExpires.setMonth(dateExpires.getMonth() + req.body.membership.monthsPaid);
+
+    }
     let member = new Member({
         name: req.body.name,
         lastName: req.body.lastName,
         birthDate: birthDate,
         gsm: req.body.gsm,
         email: req.body.email,
-        membershipType: req.body.membershipType,
-        paid: req.body.paid
+        membership: {
+            membershipType: req.body.membership.membershipType,
+            paid: req.body.membership.paid,
+            DatePaid: datePaid,
+            MembershipExpires: dateExpires,
+        }
     });
 
     member = await member.save()
@@ -65,11 +79,10 @@ router.patch('/setpaid/:id', [auth], async (req, res) => {
     let member;
     try {
         member = await Member.findByIdAndUpdate(req.params.id,
-            { paid: true }, { new: true });
+            { 'membership.paid': true }, { new: true });
     } catch (err) {
         return res.status(404).send(`Member not found with given id: ${req.params.id}`);
     }
-
     return res.send(member);
 })
 
@@ -77,6 +90,7 @@ router.put('/:id', [auth], async (req, res) => {
     const { error } = validateMember(req.body);
     if (error) return res.status(404).send(`Member not found with given id: ${req.params.id}`);
     const birthDate = new Date(req.body.birthDate);
+    
     let member;
     try {
         member = await Member.findByIdAndUpdate(req.params.id,
@@ -86,8 +100,6 @@ router.put('/:id', [auth], async (req, res) => {
                 birthDate: birthDate,
                 gsm: req.body.gsm,
                 email: req.body.email,
-                membershipType: req.body.membershipType,
-                paid: req.body.paid
             }, { new: true }
         )
     } catch (err) {
@@ -107,7 +119,7 @@ router.get('/type/:type', async (req, res) => {
     const error = validateMembershipType(req.params.type);
     if (error.result) return res.status(404).send('This given type is not valid');
 
-    const members = await Member.find({ membershipType: req.params.type });
+    const members = await Member.find({ 'membership.membershipType': req.params.type });
     if (!members) return res.status(404).send('Members not found');
 
     res.send(members);
@@ -116,12 +128,12 @@ router.get('/type/:type', async (req, res) => {
 
 router.patch('/setmembershiptype/:id', [auth], async (req, res) => {
     const { error } = validateMembershipType(req.body.membershipType);
-    if (error) return res.status(400).send('Invalid membership type');
+    if (error.result) return res.status(400).send('Invalid membership type');
 
     let member;
     try {
         member = await Member.findByIdAndUpdate(req.params.id,
-            { membershipType: req.body.membershipType }, { new: true });
+            { 'membership.membershipType': req.body.membershipType }, { new: true });
     } catch (err) {
         return res.status(404).send(`Member not found with given id: ${req.params.id}`);
     }
